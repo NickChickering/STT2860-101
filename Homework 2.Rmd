@@ -1,0 +1,65 @@
+---
+title: "Homework 2"
+author: "Nick Chickering"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Section 7.3.4 #2
+library(ggplot2)
+library(tidyverse)
+ggplot(data = diamonds) +
+hist(diamonds$price)
+
+ggplot(data = diamonds) +
+ geom_histogram(mapping = aes(x = price), binwidth = 10) +
+ coord_cartesian(xlim = c(1000, 2000))
+#Explanation
+#We can see that the price of diamonds histogram is skewed heavily to the right with a majority of the diamonds falling between $0 and ~$3000. While using the coord-cartesian function, we can focus the histogram on diamonds with a price value of $1000 < x < $2000. We can see that there is a gap at $1,500, where there seems to be 0 diamonds around this price. This is likely a data entry error. 
+
+#Section 7.5.1.1 #1
+nycflights13::flights %>%
+  mutate(cancelled = is.na(dep_time)) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x=cancelled, y = sched_dep_time))
+  
+#Explanation
+#From this boxplot we can see that flights scheduled later in the day are more likely to get cancelled. This does not seem unusual as delay's earlier in the day push back more and more flights throughout the day, until some are eventually cancelled.
+
+#Section 7.5.1.1 #2
+ggplot() +
+geom_point(diamonds, mapping = aes(x= carat, y=price))
+ggplot() +
+geom_boxplot(diamonds, mapping = aes(x =clarity, y = price))
+ggplot() +
+geom_boxplot(diamonds, mapping = aes(x = color, y = price))
+ggplot() +
+geom_boxplot(diamonds, mapping = aes(x= cut, y=carat))
+
+#Explanation
+#From the scatter plot and boxplots, we can see that there is a very strong correlation between carat and price, while the other variables show a larger deviation. This should lead us to believe that carat size is the strongest indicator for the price. When we look at the relationship between cut and carat, we can see that diamonds with an "ideal" cut, have the lowest average diamond size, and diamonds with a "fair" cut, have the highest average stone size. Because the strongest indicator of diamond price is the carat size, buyers are more likely to overlook other diamond variables such as color, clarity, or even cut. This is why lower quality diamonds are expensive, buyers prefer a bigger diamond that is worse in quality, over a high quality diamond that is pristine. 
+
